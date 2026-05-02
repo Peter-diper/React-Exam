@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-export default function ProgressBar({ timeout, onTimeout }) {
+export default function ProgressBar({ timeout, onTimeout, mode }) {
   const [remainingTime, setRemainingTime] = useState(timeout);
 
   useEffect(() => {
@@ -19,5 +19,5 @@ export default function ProgressBar({ timeout, onTimeout }) {
     };
   }, []);
 
-  return <progress value={remainingTime} max={timeout} />;
+  return <progress value={remainingTime} max={timeout} className={mode} />;
 }

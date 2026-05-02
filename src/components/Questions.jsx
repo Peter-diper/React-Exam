@@ -9,12 +9,14 @@ export default function Questions({ onSkip, index, onAnswer }) {
     isCorrect: null,
   });
 
-  let answerState = "";
+  let timer = 10000;
 
-  if (answer.correntAnswer && answer.isCorrect !== null) {
-    answerState = answer.isCorrect ? "correct" : "wrong";
-  } else if (answer.correntAnswer) {
-    answerState = "answered";
+  if (answer.correntAnswer) {
+    timer = 1000;
+  }
+
+  if (answer.isCorrect !== null) {
+    timer = 2000;
   }
 
   function handleSelectAnswer(answer) {
@@ -35,9 +37,21 @@ export default function Questions({ onSkip, index, onAnswer }) {
     }, 1000);
   }
 
+  let answerState = "";
+
+  if (answer.correntAnswer && answer.isCorrect !== null) {
+    answerState = answer.isCorrect ? "correct" : "wrong";
+  } else if (answer.correntAnswer) {
+    answerState = "answered";
+  }
   return (
     <div id="question">
-      <ProgressBar timeout={10000} onTimeout={onSkip} />
+      <ProgressBar
+        key={timer}
+        timeout={timer}
+        onTimeout={answer.correntAnswer === "" ? onSkip : null}
+        mode={answerState}
+      />
       <h2> {QUESTIONS[index].text}</h2>
       <Answers
         answerState={answerState}
